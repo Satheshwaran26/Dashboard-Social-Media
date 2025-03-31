@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { BarChart3, ChevronUp, MessageSquare, MoreHorizontal, ThumbsUp, Users } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Mock chart data
@@ -154,12 +154,12 @@ const Dashboard = () => {
                     <AreaChart data={engagementData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorLikes" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#6941C6" stopColor="#6941C6" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="#6941C6" stopColor="#6941C6" stopOpacity={0} />
+                          <stop offset="5%" stopColor="#6941C6" stopOpacity={0.8} />
+                          <stop offset="95%" stopColor="#6941C6" stopOpacity={0} />
                         </linearGradient>
                         <linearGradient id="colorComments" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#2563EB" stopColor="#2563EB" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="#2563EB" stopColor="#2563EB" stopOpacity={0} />
+                          <stop offset="5%" stopColor="#2563EB" stopOpacity={0.8} />
+                          <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
