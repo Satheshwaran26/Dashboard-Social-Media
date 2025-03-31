@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from '@/components/theme-provider';
 import { Facebook, Github, Mail, Twitter } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -20,59 +21,69 @@ const Login = () => {
   const { toast } = useToast();
   const { theme } = useTheme();
   
-  // Mock login function - will be replaced with Supabase auth
+  // Supabase login function
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
     try {
-      // Mock login
-      setTimeout(() => {
-        // Here we'd actually call Supabase auth
-        toast({
-          title: "Success!",
-          description: "You've logged in successfully.",
-        });
-        navigate('/dashboard');
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Success!",
+        description: "You've logged in successfully.",
+      });
+      navigate('/dashboard');
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to log in. Please check your credentials.",
+        description: error.message || "Failed to log in. Please check your credentials.",
         variant: "destructive",
       });
+    } finally {
       setLoading(false);
     }
   };
   
-  // Mock register function - will be replaced with Supabase auth
+  // Supabase register function
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
     try {
-      // Mock register
-      setTimeout(() => {
-        // Here we'd actually call Supabase auth
-        toast({
-          title: "Account created!",
-          description: "Your account has been created successfully.",
-        });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Account created!",
+        description: "Your account has been created successfully. Please check your email for confirmation.",
+      });
+      
+      // If email confirmation is disabled in Supabase settings, navigate to dashboard
+      if (data.session) {
         navigate('/dashboard');
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
+      }
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to create account. Please try again.",
+        description: error.message || "Failed to create account. Please try again.",
         variant: "destructive",
       });
+    } finally {
       setLoading(false);
     }
   };
   
-  // Mock reset password function - will be replaced with Supabase auth
+  // Supabase reset password function
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resetEmail) {
@@ -86,22 +97,44 @@ const Login = () => {
     
     setLoading(true);
     try {
-      // Mock reset password
-      setTimeout(() => {
-        // Here we'd actually call Supabase auth
-        toast({
-          title: "Reset link sent!",
-          description: "Check your email for password reset instructions.",
-        });
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: window.location.origin + '/reset-password',
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Reset link sent!",
+        description: "Check your email for password reset instructions.",
+      });
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to send reset link. Please try again.",
+        description: error.message || "Failed to send reset link. Please try again.",
         variant: "destructive",
       });
+    } finally {
       setLoading(false);
+    }
+  };
+
+  // Social login with Supabase
+  const handleSocialLogin = async (provider: 'github' | 'google' | 'twitter' | 'facebook') => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: window.location.origin + '/dashboard'
+        }
+      });
+      
+      if (error) throw error;
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || `Failed to sign in with ${provider}`,
+        variant: "destructive",
+      });
     }
   };
 
@@ -168,15 +201,15 @@ const Login = () => {
                 </div>
                 
                 <div className="grid grid-cols-3 gap-2">
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('github')}>
                     <Github className="w-4 h-4 mr-2" />
                     Github
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('google')}>
                     <Mail className="w-4 h-4 mr-2" />
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('twitter')}>
                     <Twitter className="w-4 h-4 mr-2" />
                     Twitter
                   </Button>
@@ -221,15 +254,15 @@ const Login = () => {
                 </div>
                 
                 <div className="grid grid-cols-3 gap-2">
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('github')}>
                     <Github className="w-4 h-4 mr-2" />
                     Github
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('google')}>
                     <Mail className="w-4 h-4 mr-2" />
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('facebook')}>
                     <Facebook className="w-4 h-4 mr-2" />
                     Facebook
                   </Button>
