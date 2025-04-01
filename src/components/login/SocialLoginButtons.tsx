@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Github, Mail, Twitter, Facebook } from 'lucide-react';
@@ -40,16 +39,18 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({ layout = 'login
 
   return (
     <>
-      <div className="my-4 flex items-center">
-        <Separator className="flex-grow" />
-        <span className="px-4 text-xs text-muted-foreground">OR CONTINUE WITH</span>
-        <Separator className="flex-grow" />
+      <div className="my-4 flex items-center w-full">
+        <Separator className="flex-grow w-26" />
+        <span className="px-4 text-xs text-muted-foreground text-center">
+          Or Continue With
+        </span>
+        <Separator className="flex-grow w-26" />
       </div>
-      
-      <div className="grid grid-cols-3 gap-2">
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
         <Button 
           variant="outline" 
-          className="w-full" 
+          className="w-full flex justify-center items-center"
           onClick={() => handleSocialLogin('github')}
           disabled={isLoading !== null}
         >
@@ -58,7 +59,7 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({ layout = 'login
         </Button>
         <Button 
           variant="outline" 
-          className="w-full" 
+          className="w-full flex justify-center items-center"
           onClick={() => handleSocialLogin('google')}
           disabled={isLoading !== null}
         >
@@ -67,7 +68,7 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({ layout = 'login
         </Button>
         <Button 
           variant="outline" 
-          className="w-full" 
+          className="w-full flex justify-center items-center"
           onClick={() => handleSocialLogin(layout === 'login' ? 'twitter' : 'facebook')}
           disabled={isLoading !== null}
         >
