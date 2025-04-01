@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, isDemoMode } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -11,8 +11,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <div className="flex h-screen items-center justify-center">Loading...</div>;
   }
   
-  if (!user) {
-    // Redirect to login if user is not authenticated
+  if (!user && !isDemoMode) {
+    // Redirect to login if user is not authenticated and not in demo mode
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

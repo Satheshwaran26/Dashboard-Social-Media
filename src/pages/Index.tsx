@@ -1,9 +1,19 @@
 
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/components/AuthProvider";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { setDemoMode } = useAuth();
+  
+  const handleDemoClick = () => {
+    setDemoMode(true);
+    navigate('/dashboard');
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background to-muted/60">
       <div className="w-full max-w-4xl p-8 space-y-8 animate-fade-in">
@@ -24,8 +34,12 @@ const Index = () => {
           <Button asChild className="btn-gradient text-lg px-8 py-6">
             <Link to="/login">Sign In</Link>
           </Button>
-          <Button asChild variant="outline" className="text-lg px-8 py-6">
-            <Link to="/dashboard">View Demo</Link>
+          <Button 
+            variant="outline" 
+            className="text-lg px-8 py-6"
+            onClick={handleDemoClick}
+          >
+            View Demo
           </Button>
         </div>
         

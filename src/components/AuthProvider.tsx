@@ -11,6 +11,8 @@ interface AuthContextType {
   isLoading: boolean;
   signOut: () => void;
   signIn: (email: string, password: string) => Promise<void>;
+  isDemoMode: boolean;
+  setDemoMode: (isDemoMode: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -18,11 +20,14 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: false,
   signOut: () => {},
   signIn: async () => {},
+  isDemoMode: false,
+  setDemoMode: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   // Mock sign in function - replace with your own auth logic
   const signIn = async (email: string, password: string) => {
@@ -43,13 +48,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = () => {
     setUser(null);
+    setIsDemoMode(false);
   };
 
   const value = {
     user,
     isLoading,
     signOut,
-    signIn
+    signIn,
+    isDemoMode,
+    setDemoMode
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
