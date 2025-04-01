@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signOut,
     signIn,
     isDemoMode,
-    setDemoMode
+    setDemoMode: setIsDemoMode
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
