@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Github, Mail, Twitter, Facebook } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from '@/components/ui/separator';
 
@@ -19,19 +18,15 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({ layout = 'login
   const handleSocialLogin = async (provider: Provider) => {
     try {
       setIsLoading(provider);
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`
-        }
-      });
       
-      if (error) {
-        if (error.message.includes('provider is not enabled')) {
-          throw new Error(`The ${provider} provider is not enabled in your Supabase project. Please enable it in the Supabase dashboard.`);
-        }
-        throw error;
-      }
+      // Mock authentication delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show toast message about missing Supabase integration
+      toast({
+        title: "Not Implemented",
+        description: `Social login with ${provider} requires backend integration.`,
+      });
     } catch (error: any) {
       toast({
         title: "Authentication Error",
