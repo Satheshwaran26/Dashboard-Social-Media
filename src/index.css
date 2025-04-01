@@ -1,11 +1,10 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,13 +16,13 @@
     --primary: 262 83% 58%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 220 14% 96%;
+    --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 262 83% 96%;
+    --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,7 +32,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 262 83% 58%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -106,24 +105,66 @@
     display: none;
   }
   
-  .glass-card {
-    @apply bg-white/40 backdrop-blur-md border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300;
-  }
-  
   .card-gradient {
-    @apply bg-gradient-to-br from-purple-50/80 to-indigo-50/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply bg-gradient-to-br from-social-purple-light/10 to-social-blue-light/10 backdrop-blur-sm border border-white/20 shadow-sm;
   }
   
   .btn-gradient {
-    @apply bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 shadow-md hover:shadow-lg transition-all duration-300;
+    @apply bg-gradient-to-r from-social-purple to-social-blue text-white shadow-md hover:shadow-lg hover:opacity-90 transition-all duration-300;
   }
   
-  .soft-shadow {
-    @apply shadow-[0_8px_30px_rgb(0,0,0,0.07)];
+  .glass {
+    @apply backdrop-blur-sm bg-white/60 dark:bg-white/5 border border-white/20 shadow-sm;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-md;
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-social-purple to-social-blue-light bg-clip-text text-transparent;
   }
 }
 
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
